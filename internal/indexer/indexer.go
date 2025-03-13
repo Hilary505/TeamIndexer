@@ -33,5 +33,3 @@ func (i *Indexer) BuildIndex(data []byte, fingerprints []uint64) map[uint64][]in
 	}
 	return index
 }
-
-
