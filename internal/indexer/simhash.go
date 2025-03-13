@@ -31,14 +31,3 @@ func SimHash(data  []byte) uint64 {
 	}
 	return fingerprint
 }
-
-//Distance calculates the Hamming distance between two SimHash fingerprints
-func Distance(a, b uint64) int {
-	xor := a ^ b
-	distance := 0
-	for xor != 0 {
-		distance += int(xor & 1)
-		xor >>= 1
-	}
-	return distance
-}
