@@ -9,19 +9,18 @@ const (
 )
 
 type Chunk struct {
-	Source string
-	Data   []byte
-	ID     int
-	Hash   uint64
+	Source string `json:"Source"`
+	Data   string `json:"Data"`
+	ID     int    `json:"ID"`
 }
 
 var (
-	ChunkSlice = []*Chunk{}
+	ChunkSlice = map[uint64]*Chunk{}
 	ID         = 0
 )
 
 // SimHash computes the SimHash fingerprint for a given chunk of data.
-func SimHash(data []byte) *Chunk {
+func SimHash(data []byte) {
 	vector := make([]int, HashSize)
 
 	// Hash the data using FNV-1a
@@ -41,8 +40,8 @@ func SimHash(data []byte) *Chunk {
 			fingerprint |= 1 << i
 		}
 	}
-	ChunkSlice = append(ChunkSlice, &Chunk{Source: "", Data: data, ID: ID + 1, Hash: fingerprint})
-	return &Chunk{Source: "", Data: data, ID: ID + 1, Hash: fingerprint}
+	ChunkSlice[fingerprint] = &Chunk{Source: "", Data: string(data), ID: ID + 1}
+	// return &Chunk{Source: "", Data: data, ID: ID + 1}
 }
 
 // Distance calculates the Hamming distance between two SimHash fingerprints
