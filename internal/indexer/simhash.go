@@ -20,7 +20,7 @@ var (
 )
 
 // SimHash computes the SimHash fingerprint for a given chunk of data.
-func SimHash(data []byte) {
+func SimHash(data []byte) uint64 {
 	vector := make([]int, HashSize)
 
 	// Hash the data using FNV-1a
@@ -40,17 +40,5 @@ func SimHash(data []byte) {
 			fingerprint |= 1 << i
 		}
 	}
-	ChunkSlice[fingerprint] = &Chunk{Source: "", Data: string(data), ID: ID + 1}
-	// return &Chunk{Source: "", Data: data, ID: ID + 1}
-}
-
-// Distance calculates the Hamming distance between two SimHash fingerprints
-func Distance(a, b uint64) int {
-	xor := a ^ b
-	distance := 0
-	for xor != 0 {
-		distance += int(xor & 1)
-		xor >>= 1
-	}
-	return distance
+	return fingerprint
 }
