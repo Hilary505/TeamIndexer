@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/gob"
+	//"encoding/gob"
 	"flag"
 	"fmt"
 	"log"
@@ -12,8 +12,9 @@ import (
 )
 
 func main() {
+	cdz, _ := os.Getwd()
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
-	inputFile := flag.String("i", "", "/home/hilaromondi/TeamIndexer/internal/testdata/text.txt")
+	inputFile := flag.String("i", cdz+"/internal/testdata/large_text.txt", "~/media/enungo/ed/TeamIndexer/internal/testdata/large_text.txt")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
 	lookupHash := flag.String("hash", "", "SimHash value to lookup")
@@ -22,6 +23,7 @@ func main() {
 	if *command != "index" && *command != "lookup" {
 		log.Println("Invalid command, use 'index' or 'lookup'")
 	}
+	fmt.Println(cdz)
 
 	// Execute the command
 	switch *command {
@@ -34,7 +36,7 @@ func main() {
 		if *lookupHash == "" {
 			log.Println("SimHash value is required for lookup")
 		}
-		//lookupCommand(*indexFile, *lookupHash)
+		// lookupCommand(*indexFile, *lookupHash)
 	}
 }
 
@@ -60,11 +62,11 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 	}
 	defer file.Close()
 
-	encoder := gob.NewEncoder(file)
-	if err := encoder.Encode(index); err != nil {
-		log.Printf("Failed to encode index: %v", err)
-		os.Exit(1)
-	}
+	// encoder := gob.NewEncoder(file)
+	// if err := encoder.Encode(index); err != nil {
+	// 	log.Printf("Failed to encode index: %v", err)
+	// 	os.Exit(1)
+	// }
+	os.WriteFile(indexFile, []byte(index), 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
 }
-
