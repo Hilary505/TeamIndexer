@@ -6,7 +6,6 @@ import (
 
 const (
 	HashSize = 64
-	ID       = 0
 )
 
 type Chunk struct {
@@ -16,7 +15,10 @@ type Chunk struct {
 	Hash   uint64
 }
 
-var ChunkSlice = []*Chunk{}
+var (
+	ChunkSlice = []*Chunk{}
+	ID         = 0
+)
 
 // SimHash computes the SimHash fingerprint for a given chunk of data.
 func SimHash(data []byte) *Chunk {
