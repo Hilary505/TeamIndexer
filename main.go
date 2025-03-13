@@ -1,20 +1,20 @@
 package main
 
 import (
-	//"encoding/gob"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 
-	"index/internal/chunker"
+	//"index/internal/chunker"
 	"index/internal/indexer"
 )
 
 func main() {
-	cdz, _ := os.Getwd()
+	currentdir, _ := os.Getwd()
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
-	inputFile := flag.String("i", cdz+"/internal/testdata/large_text.txt", "~/media/enungo/ed/TeamIndexer/internal/testdata/large_text.txt")
+	inputFile := flag.String("i", currentdir+"/internal/testdata/large_text.txt", "~/media/enungo/ed/TeamIndexer/internal/testdata/large_text.txt")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
 	lookupHash := flag.String("hash", "", "SimHash value to lookup")
@@ -23,7 +23,6 @@ func main() {
 	if *command != "index" && *command != "lookup" {
 		log.Println("Invalid command, use 'index' or 'lookup'")
 	}
-	fmt.Println(cdz)
 
 	// Execute the command
 	switch *command {
@@ -47,15 +46,18 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 		log.Printf("Failed to read input file: %v", err)
 		os.Exit(1)
 	}
-	chunker, err := chunker.NewChunker((chunkSize))
-	if err != nil {
-		log.Printf("Failed to create chunker: %v", err)
-		os.Exit(1)
-	}
-	idx := indexer.NewIndexer(chunker)
-	fingerprints := idx.Process(data)
-	// Build the index
-	index := idx.BuildIndex(data, fingerprints)
+
+	indexer.SimHash(data)
+	json.Unmarshal(data, &indexer.ChunkSlice)
+	// chunker, err := chunker.NewChunker((chunkSize))
+	// if err != nil {
+	// 	log.Printf("Failed to create chunker: %v", err)
+	// 	os.Exit(1)
+	// }
+	// idx := indexer.NewIndexer(chunker)
+	// fingerprints := idx.Process(data)
+	// // Build the index
+	// index := idx.BuildIndex(data, fingerprints)
 	file, err := os.Create(indexFile)
 	if err != nil {
 		log.Printf("Failed to create index file: %v", err)
@@ -67,6 +69,7 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 	// 	log.Printf("Failed to encode index: %v", err)
 	// 	os.Exit(1)
 	// }
-	os.WriteFile(indexFile, []byte(index), 0o0644)
+	jsonw, _ := json.Marshal(indexer.ChunkSlice)
+	os.WriteFile(indexFile, jsonw, 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
 }
