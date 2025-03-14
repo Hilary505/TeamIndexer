@@ -9,6 +9,7 @@ import (
 
 	"index/internal/chunker"
 	"index/internal/indexer"
+	"index/internal/lookup"
 )
 
 func main() {
@@ -22,20 +23,22 @@ func main() {
 
 	if *command != "index" && *command != "lookup" {
 		log.Println("Invalid command, use 'index' or 'lookup'")
+		return
 	}
-
 	// Execute the command
 	switch *command {
 	case "index":
 		if *inputFile == "" {
 			log.Println("Check the file path and try again")
+			return
 		}
 		indexCommand(*inputFile, *chunkSize, *indexFile)
 	case "lookup":
 		if *lookupHash == "" {
 			log.Println("SimHash value is required for lookup")
+			return
 		}
-		// lookupCommand(*indexFile, *lookupHash)
+		lookupCommand(*indexFile, *lookupHash)
 	}
 }
 
@@ -46,7 +49,6 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 		log.Printf("Failed to read input file: %v", err)
 		os.Exit(1)
 	}
-
 	chunker, err := chunker.NewChunker(chunkSize)
 	if err != nil {
 		log.Printf("Failed to create chunker: %v", err)
@@ -54,16 +56,28 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 	}
 	chunker.Chunk(data)
 	json.Unmarshal(data, &indexer.ChunkSlice)
-
 	file, err := os.Create(indexFile)
 	if err != nil {
 		log.Printf("Failed to create index file: %v", err)
+		return
 	}
 	defer file.Close()
 	jsonw, _ := json.Marshal(indexer.ChunkSlice)
 	os.WriteFile(indexFile, jsonw, 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
-	for _, each := range indexer.ChunkSlice {
-		fmt.Println(each.ID)
+	for simHash, chunk := range indexer.ChunkSlice {
+		fmt.Printf("Chunk ID: %d, SimHash: %x\n", chunk.ID, simHash)
 	}
+}
+
+/* lookupCommand looks up a chunk by its SimHash value */
+func lookupCommand(indexFile string, SimHash string) {
+	result, err := lookup.LookupChunkBySimHash(indexFile, SimHash)
+	if err != nil {
+		log.Fatalf("Lookup failed: %v", err)
+		return
+	}
+	fmt.Printf("Source File: %s\n", result.SourceFile)
+	fmt.Printf("Position: %d\n", result.Position)
+	fmt.Printf("Phrase: %s\n", result.Phrase)
 }
