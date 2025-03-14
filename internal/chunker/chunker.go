@@ -24,8 +24,7 @@ func (c *Chunker) Chunk(data []byte) {
 		if end > len(data) {
 			end = len(data)
 		}
-		i++
-		chunks = append(chunks, data[i:end+1])
+		chunks = append(chunks, data[i:end])
 	}
 
 	// return chunks

@@ -66,7 +66,7 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 	os.WriteFile(indexFile, jsonw, 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
 	for simHash, chunk := range indexer.ChunkSlice {
-		fmt.Printf("Chunk ID: %d, SimHash: %x\n", chunk.ID, simHash)
+		fmt.Printf("Chunk ID: %d, SimHash:%v\n", chunk.ID, simHash)
 	}
 }
 
