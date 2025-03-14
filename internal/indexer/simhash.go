@@ -8,29 +8,6 @@ const (
 	HashSize = 64
 )
 
-// // SimHash computes the SimHash fingerprint for a given chunk of data.
-// func SimHash(data  []byte) uint64 {
-// 	vector := make([]int, HashSize)
-
-//		//Hash the data using FNV-1a
-//		hasher := fnv.New64a()
-//		hasher.Write(data)
-//		hash := hasher.Sum64()
-//		for i := 0; i < HashSize; i++ {
-//			if (hash>>i)&1 == 1 {
-//				vector[i]++
-//			} else {
-//				vector[i]--
-//			}
-//		}
-//		var fingerprint uint64
-//		for i := 0; i < HashSize; i++ {
-//			if vector[i] > 0 {
-//				fingerprint |= 1 << i
-//			}
-//		}
-//		return fingerprint
-//	}
 type Chunk struct {
 	Source string `json:"Source"`
 	Data   string `json:"Data"`
@@ -39,13 +16,11 @@ type Chunk struct {
 
 var ChunkSlice = map[uint64]*Chunk{}
 
-// ID         = 0
-
-// SimHash computes the SimHash fingerprint for a given chunk of data.
+/* SimHash computes the SimHash fingerprint for a given chunk of data. */
 func SimHash(data []byte) uint64 {
 	vector := make([]int, HashSize)
 
-	// Hash the data using FNV-1a
+	/*Hash the data using FNV-1a */
 	hasher := fnv.New64a()
 	hasher.Write(data)
 	hash := hasher.Sum64()
@@ -62,6 +37,5 @@ func SimHash(data []byte) uint64 {
 			fingerprint |= 1 << i
 		}
 	}
-	// ChunkSlice[fingerprint] = &Chunk{Source: "", Data: string(data), ID: ID + 1}
 	return fingerprint
 }

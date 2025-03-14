@@ -17,10 +17,8 @@ func NewChunker(ChunkSize int) (*Chunker, error) {
 	return &Chunker{ChunkSize: ChunkSize}, nil
 }
 
-func (c *Chunker) Chunk(data []byte) { //[][]byte {
+func (c *Chunker) Chunk(data []byte) { 
 	var chunks [][]byte
-	// var chunks []byte
-
 	for i := 0; i < len(data); i += c.ChunkSize {
 		end := i + c.ChunkSize
 		if end > len(data) {
