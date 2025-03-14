@@ -34,8 +34,7 @@ The implementation prioritizes **speed**, **efficient memory use**, and **clean 
 ## **Project Structure**
 ```plaintext
 textindex/
-├── cmd/
-│   └── main.go         # CLI entry point
+├── main.go         # CLI entry point
 ├── internal/
 │   ├── chunker/
 │   │   └── chunker.go  # Chunking logic
@@ -43,7 +42,9 @@ textindex/
 │   │   ├── indexer.go  # Indexing logic
 │   │   └── simhash.go  # SimHash implementation
 │   └── lookup/
-│       └── lookup.go   # Lookup functionality
+│   |    └── lookup.go   # Lookup functionality
+    |__ tests/
+│       └── lookup_tests.go
 ├── testdata/
 │   └── large_text.txt  # Sample text file for testing
 └── go.mod              # Go module file

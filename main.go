@@ -16,7 +16,11 @@ import (
 ======================== Main Function ======================================
 ============================================================================== */
 func main() {
-	currentdir, _ := os.Getwd()
+	currentdir, err := os.Getwd()
+	if err != nil {
+		log.Println("error: must be working directory")
+		return
+	}
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
 	inputFile := flag.String("i", currentdir + "/large_text.txt", "input file")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
