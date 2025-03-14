@@ -2,6 +2,9 @@ package chunker
 
 import (
 	"errors"
+	"fmt"
+
+	"index/internal/indexer"
 )
 
 type Chunker struct {
@@ -15,7 +18,7 @@ func NewChunker(ChunkSize int) (*Chunker, error) {
 	return &Chunker{ChunkSize: ChunkSize}, nil
 }
 
-func (c *Chunker) Chunk(data []byte) [][]byte {
+func (c *Chunker) Chunk(data []byte, inputFile string) {
 	var chunks [][]byte
 
 	for i := 0; i < len(data); i += c.ChunkSize {
@@ -25,5 +28,11 @@ func (c *Chunker) Chunk(data []byte) [][]byte {
 		}
 		chunks = append(chunks, data[i:end])
 	}
-	return chunks
+
+	// return chunks
+	for j, chunk := range chunks {
+		simhash := indexer.SimHash(chunk)
+		fmt.Println(inputFile)
+		indexer.ChunkSlice[simhash] = &indexer.Chunk{Source: inputFile, Data: string(chunk), ID: j + 1}
+	}
 }

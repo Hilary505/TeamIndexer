@@ -1,6 +1,7 @@
 package indexer
 
 import (
+	"fmt"
 	"hash/fnv"
 )
 
@@ -14,16 +15,13 @@ type Chunk struct {
 	ID     int    `json:"ID"`
 }
 
-var (
-	ChunkSlice = map[uint64]*Chunk{}
-	ID         = 0
-)
+var ChunkSlice = map[string]*Chunk{}
 
-// SimHash computes the SimHash fingerprint for a given chunk of data.
-func SimHash(data []byte) uint64 {
+/* SimHash computes the SimHash fingerprint for a given chunk of data. */
+func SimHash(data []byte) string {
 	vector := make([]int, HashSize)
 
-	// Hash the data using FNV-1a
+	/*Hash the data using FNV-1a */
 	hasher := fnv.New64a()
 	hasher.Write(data)
 	hash := hasher.Sum64()
@@ -40,5 +38,5 @@ func SimHash(data []byte) uint64 {
 			fingerprint |= 1 << i
 		}
 	}
-	return fingerprint
+	return fmt.Sprintf("%x", fingerprint)
 }

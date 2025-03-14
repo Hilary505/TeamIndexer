@@ -1,0 +1,1 @@
+The default chunk size is 4096 bytes (4KB) if not specified.
