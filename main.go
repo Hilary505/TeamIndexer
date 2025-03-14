@@ -62,7 +62,11 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 		return
 	}
 	defer file.Close()
-	jsonw, _ := json.Marshal(indexer.ChunkSlice)
+	jsonw, err := json.Marshal(indexer.ChunkSlice)
+	if err != nil {
+		log.Printf("%v\n", err)
+		return
+	}
 	os.WriteFile(indexFile, jsonw, 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
 	for simHash, chunk := range indexer.ChunkSlice {
