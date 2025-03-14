@@ -33,21 +33,20 @@ The implementation prioritizes **speed**, **efficient memory use**, and **clean 
 
 ## **Project Structure**
 ```plaintext
-textindex/
-├── main.go         # CLI entry point
-├── internal/
-│   ├── chunker/
-│   │   └── chunker.go  # Chunking logic
-│   ├── indexer/
-│   │   ├── indexer.go  # Indexing logic
-│   │   └── simhash.go  # SimHash implementation
-│   └── lookup/
-│   |    └── lookup.go   # Lookup functionality
-    |__ tests/
-│       └── lookup_tests.go
-├── testdata/
-│   └── large_text.txt  # Sample text file for testing
-└── go.mod              # Go module file
+TeamIndexer/
+│── internal/              # Contains internal modules for indexing, chunking, and lookup
+│   ├── chunker/           # Handles breaking large text files into chunks
+│   ├── indexer/           # Processes chunks and generates SimHash fingerprints
+│   ├── lookup/            # Implements lookup functionality for retrieving chunk positions
+│   ├── tests/             # Contains test cases for different modules
+│   ├── utils/             # (Optional) Utility functions for common operations
+│── go.mod                 # Go module file for dependency management
+│── large_text.txt         # Sample large text file for testing
+│── LICENSE                # License information
+│── main.go                # Entry point of the application
+│── Makefile               # Makefile for building and running the project
+│── README.md              # Documentation (this file)
+
 ```
 
 ---
