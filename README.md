@@ -166,6 +166,6 @@ go test ./...
 ```
 
 ## **Authors**
-[Hilary]()
-[Nungo]()
-[Namayi]()
+- [Hilary Omondi](https://github.com/Hilary505)
+- [Nungo Edwin](https://github.com/NungoEdwin)
+- [Namayi Franklyne](https://github.com/fnamayi)
