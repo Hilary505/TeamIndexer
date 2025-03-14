@@ -18,7 +18,7 @@ func main() {
 	inputFile := flag.String("i", currentdir+"/internal/testdata/large_text.txt", "~/media/enungo/ed/TeamIndexer/internal/testdata/large_text.txt")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
-	lookupHash := flag.String("hash", "", "SimHash value to lookup")
+	lookupHash := flag.String("h", "", "SimHash value to lookup")
 	flag.Parse()
 
 	if *command != "index" && *command != "lookup" {
