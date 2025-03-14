@@ -1,17 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
-	"index/internal/chunker"
-	"index/internal/indexer"
-	"index/internal/lookup"
 	"index/internal/utils"
-
 )
 
 /*===========================================================================
@@ -24,7 +18,7 @@ func main() {
 		return
 	}
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
-	inputFile := flag.String("i", currentdir + "/large_text.txt", "input file")
+	inputFile := flag.String("i", currentdir+"/large_text.txt", "input file")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
 	lookupHash := flag.String("h", "", "SimHash value to lookup")
@@ -54,4 +48,3 @@ func main() {
 		utils.LookupCommand(*indexFile, *lookupHash)
 	}
 }
-
