@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 
 	"index/internal/indexer"
 )
@@ -26,8 +27,7 @@ func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, erro
 	}
 
 	/* Convert the provided SimHash string to uint64 */
-	var simHashValue uint64
-	_, err = fmt.Sscanf(SimHash, "%x", &simHashValue)
+	simHashValue, err := strconv.ParseUint(SimHash, 10, 64) // Use base 10 for decimal input
 	if err != nil {
 		return nil, fmt.Errorf("invalid SimHash value: %v", err)
 	}
@@ -37,7 +37,7 @@ func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, erro
 	}
 	result := &LookupResult{
 		SourceFile: chunk.Source,
-		Position:   chunk.ID, 
+		Position:   chunk.ID,
 		Phrase:     chunk.Data,
 	}
 	return result, nil
