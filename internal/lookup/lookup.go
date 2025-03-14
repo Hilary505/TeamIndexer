@@ -15,7 +15,7 @@ type LookupResult struct {
 	Position   int    `json:"Position"`
 	Phrase     string `json:"Phrase"`
 }
-
+/*function to look for chunk based on the SimHash */
 func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, error) {
 	data, err := os.ReadFile(indexFile)
 	if err != nil {
@@ -27,7 +27,7 @@ func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, erro
 	}
 
 	/* Convert the provided SimHash string to uint64 */
-	simHashValue, err := strconv.ParseUint(SimHash, 10, 64) // Use base 10 for decimal input
+	simHashValue, err := strconv.ParseUint(SimHash, 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("invalid SimHash value: %v", err)
 	}

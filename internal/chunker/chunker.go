@@ -17,7 +17,7 @@ func NewChunker(ChunkSize int) (*Chunker, error) {
 	return &Chunker{ChunkSize: ChunkSize}, nil
 }
 
-func (c *Chunker) Chunk(data []byte) { 
+func (c *Chunker) Chunk(data []byte) {
 	var chunks [][]byte
 	for i := 0; i < len(data); i += c.ChunkSize {
 		end := i + c.ChunkSize
@@ -32,6 +32,5 @@ func (c *Chunker) Chunk(data []byte) {
 	for j, chunk := range chunks {
 		simhash := indexer.SimHash(chunk)
 		indexer.ChunkSlice[simhash] = &indexer.Chunk{Source: "", Data: string(chunk), ID: j + 1}
-
 	}
 }

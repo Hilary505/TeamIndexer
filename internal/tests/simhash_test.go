@@ -16,12 +16,12 @@ func TestSimHash(t *testing.T) {
 		{
 			name:     "Empty text",
 			input:    []byte(""),
-			expected:  0xcbf29ce484222325,
+			expected: 0xcbf29ce484222325,
 		},
 		{
 			name:     "Small text",
 			input:    []byte("hello"),
-			expected: 0xa430d84680aabd0b, 
+			expected: 0xa430d84680aabd0b,
 		},
 		{
 			name:     "Large text",
