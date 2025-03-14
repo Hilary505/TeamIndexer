@@ -2,7 +2,6 @@ package chunker
 
 import (
 	"errors"
-	"fmt"
 
 	"index/internal/indexer"
 )
@@ -32,7 +31,6 @@ func (c *Chunker) Chunk(data []byte, inputFile string) {
 	// return chunks
 	for j, chunk := range chunks {
 		simhash := indexer.SimHash(chunk)
-		fmt.Println(inputFile)
 		indexer.ChunkSlice[simhash] = &indexer.Chunk{Source: inputFile, Data: string(chunk), ID: j + 1}
 	}
 }
