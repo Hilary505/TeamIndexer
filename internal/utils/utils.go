@@ -23,7 +23,7 @@ func IndexCommand(inputFile string, chunkSize int, indexFile string) {
 		log.Printf("Failed to create chunker: %v", err)
 		os.Exit(1)
 	}
-	chunker.Chunk(data, inputFile)
+	go chunker.Chunk(data, inputFile)
 	json.Unmarshal(data, &indexer.ChunkSlice)
 	file, err := os.Create(indexFile)
 	if err != nil {

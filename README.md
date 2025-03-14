@@ -70,7 +70,7 @@ TeamIndexer/
     go build -o textindex main.go
 ```
 or alternatively utilize the makefile:
-``bash
+```bash
     make build
 ```
 
