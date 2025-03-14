@@ -24,7 +24,11 @@ func main() {
 	if *command != "index" && *command != "lookup" {
 		log.Println("Invalid command, use 'index' or 'lookup'")
 		return
+	} else if *chunkSize%8 != 0 {
+		log.Println("Error:Invalid Chunksize")
+		return
 	}
+
 	// Execute the command
 	switch *command {
 	case "index":
