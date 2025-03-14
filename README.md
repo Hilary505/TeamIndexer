@@ -67,7 +67,11 @@ TeamIndexer/
 
 3. Build the executable:
 ```bash
-    go build -o textindex ./cmd/main.go
+    go build -o textindex main.go
+```
+or alternatively utilize the makefile:
+``bash
+    make build
 ```
 
 ## **Usage**
@@ -130,14 +134,7 @@ The `SimHash` function generates a unique fingerprint for each chunk based on it
 - Aggregates bit vectors to compute a compact fingerprint.
 - Ensures similar chunks produce similar hash values.
 
-### **3. Indexing Logic (`indexer.go`)**
-The `Indexer` processes data, computes fingerprints, and builds an in-memory index.
-
-#### Key Features:
-- Maps SimHash values to byte offsets for fast lookup.
-- Supports efficient serialization and deserialization using Go's `encoding/gob`.
-
-### **4. Lookup Logic (`lookup.go`)**
+### **3. Lookup Logic (`lookup.go`)**
 The lookup functionality retrieves information about a specific chunk based on its SimHash value.
 
 #### Outputs:
