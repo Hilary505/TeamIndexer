@@ -1,1 +1,169 @@
-Hallo world
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="createpost.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Forum</h1> 
+            <button id="createPostBtn" class="create-post-btn"> 
+                <i data-lucide="plus-circle"></i>
+                Create Post </button>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Create a New Post</h2>
+            <form id="postForm">
+                <div class="form-group"> 
+                    <label>Title</label> 
+                    <input type="text" id="title" required> 
+                </div>
+                <div class="form-group"> 
+                    <label>Category</label> 
+                    <select id="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Tutorial">Tutorial</option>
+                        <option value="Discussion">Discussion</option>
+                        <option value="Guide">Guide</option>
+                        <option value="Question">Question</option>
+                    </select> </div>
+                    <div class="form-group"> 
+                        <label>Content</label> 
+                        <textarea id="postContent" rows="4" required></textarea> 
+                    </div>
+                <div class="form-group"> 
+                    <label>Add Media</label>
+                    <div class="media-options">
+                        <div class="image-upload"> 
+                            <label for="imageUpload" class="upload-btn"> 
+                                <i data-lucide="image"></i> Upload Image </label> 
+                            <input type="file"
+                                id="imageUpload" 
+                                accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif" 
+                                class="hidden"
+                            > 
+                            <div class="upload-info"> 
+                                <small>Accepted formats: JPEG, PNG, GIF (max 20MB)</small> 
+                                <div id="uploadError" class="upload-error hidden"></div> 
+                            </div>
+                        </div>
+                        <div class="video-upload"> 
+                            <input 
+                                type="url" 
+                                id="videoLink"
+                                placeholder="Paste video URL (YouTube/Vimeo)"
+                            > 
+                        </div>
+                    </div>
+                </div>
+                <div id="mediaPreview" class="media-preview hidden">
+                    <div id="imagePreviewContainer" class="image-preview-container hidden"> 
+                        <img id="imagePreview"
+                            src="" 
+                            alt="Preview"
+                            > 
+                            <button 
+                            type="button" 
+                            id="removeImage" 
+                            class="remove-media"
+                            > 
+                            <i data-lucide="x"></i> 
+                        </button> 
+                    </div>
+                    <div id="videoPreviewContainer" class="video-preview-container hidden">
+                        <div id="videoPreview"></div> <button type="button" id="removeVideo" class="remove-media">
+                            <i data-lucide="x"></i> </button>
+                    </div>
+                </div>
+                <div class="form-actions"> <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Create Post</button> </div>
+            </form>
+        </div>
+    </div>
+    <script src="createposts.js" type="module"></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<If you call io.ReadAll on a very large data stream, like a massive file or an HTTP response that’s much bigger than expected, the function will keep reading and allocating memory until either it finishes or the system runs out of memory.
+
+Take a scenario where you want to count how many times the letter ‘a’ appears in a file. If you use io.ReadAll to read the entire file first and then count the letter ‘a’, that’s a bit overkill.
+
+In situations like this, io.ReadAll isn’t the best option. Streaming or processing the data incrementally as you read it would be way more efficient.
+
+    “So, what should I do? Read it manually?”
+
+Exactly.
+
+You can process each chunk of data as it’s read, count the letter ‘a’, and then move on, without storing the whole file in memory. This solution works well when you’re reading from a file or a network stream, and it allows you to do other things, too.
+
+When you’re in these kinds of scenarios: passing data between systems, forwarding an HTTP request body, reading a file and sending it over a network, or downloading something and saving it, you’ve got a great tool: io.Copy - a real lifesaver.
+
+func Copy(dst Writer, src Reader) (written int64, err error) { ... }
+
+Go
+The beauty of io.Copy is that it uses a fixed 32KB buffer to handle the transfer.
+</html>
+If you call io.ReadAll on a very large data stream, like a massive file or an HTTP response that’s much bigger than expected, the function will keep reading and allocating memory until either it finishes or the system runs out of memory.
+
+Take a scenario where you want to count how many times the letter ‘a’ appears in a file. If you use io.ReadAll to read the entire file first and then count the letter ‘a’, that’s a bit overkill.
+
+In situations like this, io.ReadAll isn’t the best option. Streaming or processing the data incrementally as you read it would be way more efficient.
+
+    “So, what should I do? Read it manually?”
+
+Exactly.
+
+You can process each chunk of data as it’s read, count the letter ‘a’, and then move on, without storing the whole file in memory. This solution works well when you’re reading from a file or a network stream, and it allows you to do other things, too.
+
+When you’re in these kinds of scenarios: passing data between systems, forwarding an HTTP request body, reading a file and sending it over a network, or downloading something and saving it, you’ve got a great tool: io.Copy - a real lifesaver.
+
+func Copy(dst Writer, src Reader) (written int64, err error) { ... }
+
+Go
+The beauty of io.Copy is that it uses a fixed 32KB buffer to handle the transfer.
+If you call io.ReadAll on a very large data stream, like a massive file or an HTTP response that’s much bigger than expected, the function will keep reading and allocating memory until either it finishes or the system runs out of memory.
+
+Take a scenario where you want to count how many times the letter ‘a’ appears in a file. If you use io.ReadAll to read the entire file first and then count the letter ‘a’, that’s a bit overkill.
+
+In situations like this, io.ReadAll isn’t the best option. Streaming or processing the data incrementally as you read it would be way more efficient.
+
+    “So, what should I do? Read it manually?”
+
+Exactly.
+
+You can process each chunk of data as it’s read, count the letter ‘a’, and then move on, without storing the whole file in memory. This solution works well when you’re reading from a file or a network stream, and it allows you to do other things, too.
+
+When you’re in these kinds of scenarios: passing data between systems, forwarding an HTTP request body, reading a file and sending it over a network, or downloading something and saving it, you’ve got a great tool: io.Copy - a real lifesaver.
+
+func Copy(dst Writer, src Reader) (written int64, err error) { ... }
+
+Go
+The beauty of io.Copy is that it uses a fixed 32KB buffer to handle the transfer.
+If you call io.ReadAll on a very large data stream, like a massive file or an HTTP response that’s much bigger than expected, the function will keep reading and allocating memory until either it finishes or the system runs out of memory.
+
+Take a scenario where you want to count how many times the letter ‘a’ appears in a file. If you use io.ReadAll to read the entire file first and then count the letter ‘a’, that’s a bit overkill.
+
+In situations like this, io.ReadAll isn’t the best option. Streaming or processing the data incrementally as you read it would be way more efficient.
+
+    “So, what should I do? Read it manually?”
+
+Exactly.
+
+You can process each chunk of data as it’s read, count the letter ‘a’, and then move on, without storing the whole file in memory. This solution works well when you’re reading from a file or a network stream, and it allows you to do other things, too.
+
+When you’re in these kinds of scenarios: passing data between systems, forwarding an HTTP request body, reading a file and sending it over a network, or downloading something and saving it, you’ve got a great tool: io.Copy - a real lifesaver.
+
+func Copy(dst Writer, src Reader) (written int64, err error) { ... }
+
+Go
+The beauty of io.Copy is that it uses a fixed 32KB buffer to handle the transfer.

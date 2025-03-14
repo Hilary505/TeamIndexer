@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	//"strconv"
 
-	//"index/internal/chunker"
+	"index/internal/chunker"
 	"index/internal/indexer"
 )
 
@@ -47,17 +48,19 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 		os.Exit(1)
 	}
 
-	indexer.SimHash(data)
-	json.Unmarshal(data, &indexer.ChunkSlice)
-	// chunker, err := chunker.NewChunker((chunkSize))
-	// if err != nil {
-	// 	log.Printf("Failed to create chunker: %v", err)
-	// 	os.Exit(1)
-	// }
+	chunker, err := chunker.NewChunker(chunkSize)
+	if err != nil {
+		log.Printf("Failed to create chunker: %v", err)
+		os.Exit(1)
+	}
 	// idx := indexer.NewIndexer(chunker)
 	// fingerprints := idx.Process(data)
 	// // Build the index
 	// index := idx.BuildIndex(data, fingerprints)
+	chunker.Chunk(data)
+	// indexer.SimHash(data)
+	json.Unmarshal(data, &indexer.ChunkSlice)
+
 	file, err := os.Create(indexFile)
 	if err != nil {
 		log.Printf("Failed to create index file: %v", err)
@@ -72,4 +75,10 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 	jsonw, _ := json.Marshal(indexer.ChunkSlice)
 	os.WriteFile(indexFile, jsonw, 0o0644)
 	fmt.Printf("Index saved to %s\n", indexFile)
+	// a:="4996037075876726994"
+	// b := "9025534693620121314"
+	// uintb, _ := strconv.ParseUint(b, 10, 64)
+	for _, each := range indexer.ChunkSlice {
+		fmt.Println(each.ID)
+	}
 }

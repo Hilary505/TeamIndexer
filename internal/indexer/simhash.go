@@ -37,10 +37,9 @@ type Chunk struct {
 	ID     int    `json:"ID"`
 }
 
-var (
-	ChunkSlice = map[uint64]*Chunk{}
-	ID         = 0
-)
+var ChunkSlice = map[uint64]*Chunk{}
+
+// ID         = 0
 
 // SimHash computes the SimHash fingerprint for a given chunk of data.
 func SimHash(data []byte) uint64 {
@@ -63,6 +62,6 @@ func SimHash(data []byte) uint64 {
 			fingerprint |= 1 << i
 		}
 	}
-	ChunkSlice[fingerprint] = &Chunk{Source: "", Data: string(data), ID: ID + 1}
+	// ChunkSlice[fingerprint] = &Chunk{Source: "", Data: string(data), ID: ID + 1}
 	return fingerprint
 }

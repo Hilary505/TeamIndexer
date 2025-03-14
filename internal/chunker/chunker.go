@@ -1,28 +1,39 @@
 package chunker
 
-import(
+import (
 	"errors"
+
+	"index/internal/indexer"
 )
 
 type Chunker struct {
 	ChunkSize int
 }
 
-func NewChunker(ChunkSize int) (*Chunker, error){
+func NewChunker(ChunkSize int) (*Chunker, error) {
 	if ChunkSize <= 0 {
 		return nil, errors.New("chunk size must be greater than 0")
 	}
-	return &Chunker{ChunkSize: ChunkSize},nil
+	return &Chunker{ChunkSize: ChunkSize}, nil
 }
 
-func (c *Chunker) Chunk(data []byte) [][]byte {
+func (c *Chunker) Chunk(data []byte) { //[][]byte {
 	var chunks [][]byte
+	// var chunks []byte
+
 	for i := 0; i < len(data); i += c.ChunkSize {
 		end := i + c.ChunkSize
 		if end > len(data) {
 			end = len(data)
 		}
-		chunks = append(chunks,data[i:end])
+		i++
+		chunks = append(chunks, data[i:end+1])
 	}
-	return chunks
+
+	// return chunks
+	for j, chunk := range chunks {
+		simhash := indexer.SimHash(chunk)
+		indexer.ChunkSlice[simhash] = &indexer.Chunk{Source: "", Data: string(chunk), ID: j + 1}
+
+	}
 }
