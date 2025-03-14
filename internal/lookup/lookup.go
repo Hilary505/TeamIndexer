@@ -30,7 +30,7 @@ func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, erro
 	simHashValue := SimHash
 	chunk, exists := chunkMap[simHashValue]
 	if !exists {
-		return nil, errors.New("chunk with the given SimHash not found")
+		return nil, errors.New("Error:SimHash not found")
 	}
 	result := &LookupResult{
 		SourceFile: chunk.Source,
