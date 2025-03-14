@@ -14,6 +14,9 @@ import (
 
 )
 
+/*===========================================================================
+======================== Main Function ======================================
+============================================================================== */
 func main() {
 	currentdir, err := os.Getwd()
 	if err != nil {
@@ -21,7 +24,7 @@ func main() {
 		return
 	}
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
-	inputFile := flag.String("i", currentdir+"/large_text.txt", "input file")
+	inputFile := flag.String("i", currentdir + "/large_text.txt", "input file")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
 	lookupHash := flag.String("h", "", "SimHash value to lookup")
