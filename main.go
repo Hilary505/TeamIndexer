@@ -15,7 +15,7 @@ import (
 func main() {
 	currentdir, _ := os.Getwd()
 	command := flag.String("c", "", "Command to execute: 'index' or 'lookup'")
-	inputFile := flag.String("i", currentdir+"/internal/testdata/large_text.txt", "")
+	inputFile := flag.String("i", currentdir+"/large_text.txt", "input file")
 	chunkSize := flag.Int("s", 4096, "Size of each chunk in bytes")
 	indexFile := flag.String("o", "index.idx", "Path to save or load the index file")
 	lookupHash := flag.String("h", "", "SimHash value to lookup")
@@ -54,7 +54,7 @@ func indexCommand(inputFile string, chunkSize int, indexFile string) {
 		log.Printf("Failed to create chunker: %v", err)
 		os.Exit(1)
 	}
-	chunker.Chunk(data)
+	chunker.Chunk(data, inputFile)
 	json.Unmarshal(data, &indexer.ChunkSlice)
 	file, err := os.Create(indexFile)
 	if err != nil {
