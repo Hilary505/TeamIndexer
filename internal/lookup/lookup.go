@@ -1,6 +1,7 @@
 package lookup
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -15,27 +16,35 @@ type LookupResult struct {
 	Phrase     string `json:"Phrase"`
 }
 
-/*function to look for chunk based on the SimHash */
+/* LookupChunkBySimHash efficiently reads an index file line by line to find a matching SimHash without loading the entire file into memory. */
 func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, error) {
-	data, err := os.ReadFile(indexFile)
+	file, err := os.Open(indexFile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read index file: %v", err)
+		return nil, fmt.Errorf("failed to open index file: %v", err)
 	}
-	var chunkMap map[string]*indexer.Chunk
-	if err := json.Unmarshal(data, &chunkMap); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal index file: %v", err)
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file) // Stream-read line by line
+	for scanner.Scan() {
+		var chunk indexer.Chunk
+		err := json.Unmarshal(scanner.Bytes(), &chunk) // Decode each line
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse index file: %v", err)
+		}
+
+		if SimHash == chunk.Data { // Compare SimHash (modify condition if needed)
+			result := &LookupResult{
+				SourceFile: chunk.Source,
+				Position:   chunk.ID,
+				Phrase:     chunk.Data,
+			}
+			return result, nil // Return result and nil error
+		}
 	}
 
-	/* Convert the provided SimHash string to uint64 */
-	simHashValue := SimHash
-	chunk, exists := chunkMap[simHashValue]
-	if !exists {
-		return nil, errors.New("Error:SimHash not found")
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading index file: %v", err)
 	}
-	result := &LookupResult{
-		SourceFile: chunk.Source,
-		Position:   chunk.ID,
-		Phrase:     chunk.Data,
-	}
-	return result, nil
+
+	return nil, errors.New("SimHash not found in index")
 }
