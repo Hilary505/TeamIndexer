@@ -16,7 +16,7 @@ type LookupResult struct {
 	Phrase     string `json:"Phrase"`
 }
 
-/* LookupChunkBySimHash efficiently reads an index file line by line to find a matching SimHash without loading the entire file into memory. */
+/* LookupChunkBySimHash reads an index file line by line, unmarshals each line, and retrieves a chunk based on a given SimHash. */
 func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, error) {
 	file, err := os.Open(indexFile)
 	if err != nil {
@@ -24,21 +24,20 @@ func LookupChunkBySimHash(indexFile string, SimHash string) (*LookupResult, erro
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file) // Stream-read line by line
+	scanner := bufio.NewScanner(file)
+
 	for scanner.Scan() {
-		var chunk indexer.Chunk
-		err := json.Unmarshal(scanner.Bytes(), &chunk) // Decode each line
-		if err != nil {
+		var chunkMap map[string]*indexer.Chunk
+		if err := json.Unmarshal(scanner.Bytes(), &chunkMap); err != nil {
 			return nil, fmt.Errorf("failed to parse index file: %v", err)
 		}
 
-		if SimHash == chunk.Data { // Compare SimHash (modify condition if needed)
-			result := &LookupResult{
+		if chunk, exists := chunkMap[SimHash]; exists {
+			return &LookupResult{
 				SourceFile: chunk.Source,
 				Position:   chunk.ID,
 				Phrase:     chunk.Data,
-			}
-			return result, nil // Return result and nil error
+			}, nil
 		}
 	}
 
