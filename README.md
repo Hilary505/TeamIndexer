@@ -36,10 +36,10 @@ The implementation prioritizes **speed**, **efficient memory use**, and **clean 
 TeamIndexer/
 │── internal/              # Contains internal modules for indexing, chunking, and lookup
 │   ├── chunker/           # Handles breaking large text files into chunks
-│   ├── indexer/           # Processes chunks and generates SimHash fingerprints
-│   ├── lookup/            # Implements lookup functionality for retrieving chunk positions
-│   ├── tests/             # Contains test cases for different modules
-│   ├── utils/             # (Optional) Utility functions for common operations
+│   ├── indexer/           # Processes chunks and generates SimHash 
+│   ├── lookup/            # Implements lookup functionality 
+│   ├── utils/ 
+│           
 │── go.mod                 # Go module file for dependency management
 │── large_text.txt         # Sample large text file for testing
 │── LICENSE                # License information
@@ -55,23 +55,23 @@ TeamIndexer/
 
 1. Clone the repository:
  ```bash
-    git clone https://github.com/Hilary505/TeamIndexer.git
+   $ git clone https://github.com/Hilary505/TeamIndexer.git
 
     cd TeamIndexer
 ```
 
 2. Install dependencies:
  ```bash
-    go mod tidy
+   $ go mod tidy
  ```
 
 3. Build the executable:
 ```bash
-    go build -o textindex main.go
+   $ go build -o textindex main.go
 ```
 or alternatively utilize the makefile:
 ```bash
-    make build
+   $ make build
 ```
 
 ## **Usage**
@@ -81,7 +81,7 @@ The `index` command processes a text file, splits it into chunks, computes SimHa
 
 #### Syntax:
 ```bash
-textindex index -i  -s  -o 
+ $ textindex index -i  -s  -o 
 ```
 
 #### Arguments:
@@ -93,7 +93,7 @@ textindex index -i  -s  -o
 
 #### Example Usage:
 ```bash
-textindex index -i testdata/large_text.txt -s 4096 -o index.idx
+ $ textindex index -i testdata/large_text.txt -s 4096 -o index.idx
 ```
 This command splits `large_text.txt` into 4KB chunks, generates SimHash fingerprints, and saves the index in `index.idx`.
 
@@ -102,7 +102,7 @@ The `lookup` command retrieves information about a chunk based on its SimHash va
 
 #### Syntax:
 ```bash
-textindex lookup -i  -h 
+$ textindex lookup -i  -h 
 ```
 
 #### Arguments:
@@ -159,7 +159,7 @@ The lookup functionality retrieves information about a specific chunk based on i
 Unit tests are included for all major components (`chunker`, `simhash`, `indexer`). To run tests:
 
 ```bash
-go test ./...
+$ go test ./...
 ```
 
 ## **Authors**
