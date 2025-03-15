@@ -1,6 +1,7 @@
 package lookup
 
 import (
+	// "bufio"
 	"encoding/json"
 	"os"
 	"reflect"
@@ -9,22 +10,26 @@ import (
 	"index/internal/indexer"
 )
 
-/* Mock index file content */
+/* Mock index file content with line-by-line writing */
 func createTempIndexFile(t *testing.T, content map[string]*indexer.Chunk) string {
-	data, err := json.Marshal(content)
-	if err != nil {
-		t.Fatalf("failed to marshal test data: %v", err)
-	}
-	tmpFile, err := os.CreateTemp("", "index-*.json")
-	if err != nil {
-		t.Fatalf("failed to create temp file: %v", err)
-	}
-	if _, err := tmpFile.Write(data); err != nil {
-		t.Fatalf("failed to write test data to temp file: %v", err)
-	}
-	tmpFile.Close()
-	return tmpFile.Name()
+    data, err := json.Marshal(content) // Marshal the whole map, not individual entries
+    if err != nil {
+        t.Fatalf("failed to marshal test data: %v", err)
+    }
+
+    tmpFile, err := os.CreateTemp("", "index-*.json")
+    if err != nil {
+        t.Fatalf("failed to create temp file: %v", err)
+    }
+    defer tmpFile.Close()
+
+    if _, err := tmpFile.Write(data); err != nil {
+        t.Fatalf("failed to write test data to temp file: %v", err)
+    }
+
+    return tmpFile.Name()
 }
+
 
 func TestLookupChunkBySimHash(t *testing.T) {
 	// Sample chunk data
